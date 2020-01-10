@@ -256,7 +256,7 @@ public:
 typedef CGAL::Exact_predicates_inexact_constructions_kernel K;
 typedef CGAL::Tetrahedron_3<K> Tetra;
 typedef CGAL::Polyhedron_3<K, Polyhedron_demo_items<int>> Polyhedron;
-typedef Polyhedron::Vertex_handle Vertex_handle;
+//typedef Polyhedron::Vertex_handle Vertex_handle;
 typedef Polyhedron::Facet_handle Facet_handle;
 typedef Polyhedron::Halfedge_handle Halfedge_handle;
 typedef Polyhedron::Edge_iterator Edge_iterator;
