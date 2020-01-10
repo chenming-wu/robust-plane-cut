@@ -2,7 +2,7 @@
 
 #include <CGAL/Polygon_mesh_processing/triangulate_hole.h>
 
-void FillHoleCGAL::fill_hole(Polyhedron& poly, Plane& pl)
+void FillHoleCGAL::fill_hole(Polyhedron& poly, Vector3& nr, const double density)
 {
 	//#define FILL_AND_REFINE
 	double alpha = 0.8;

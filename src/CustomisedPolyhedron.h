@@ -105,14 +105,14 @@ class Polyhedron_demo_halfedge :
 {
 private:
 	bool feature_edge;
-	std::size_t mID;
 	std::size_t time_stamp_;
+	std::size_t mask_;
 
 public:
 
 	Polyhedron_demo_halfedge()
-		: feature_edge(false), mID(-1)
-	{
+		: feature_edge(false), mask_(0)
+	{	
 	};
 
 	bool is_feature_edge() const
@@ -126,8 +126,10 @@ public:
 		this->opposite()->feature_edge = b;
 	}
 
-	std::size_t& id() { return mID; }
-	std::size_t id() const { return mID; }
+	std::size_t& mask() { return mask_; }
+	std::size_t mask() const { return mask_; }
+
+	void set_mask(std::size_t m) { mask_ = m; }
 
 	/// For the determinism of Compact_container iterators
 	///@{
