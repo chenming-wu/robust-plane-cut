@@ -21,25 +21,40 @@
 #define M_PI 3.1415926535897
 #endif
 
-int main()
+int main(int argc, char** argv)
 {
     std::ifstream input("fertility.off");
+    if (argc == 5)
+    {
+        input.close();
+        input = std::ifstream(argv[4]);
+    }
     Polyhedron poly;
     input >> poly;
     input.close();
+    double alpha = atof(argv[1]);
+    double beta = atof(argv[2]);
+    double gamma = atof(argv[3]);
+	auto sphere = MinSphere(poly.points_begin(), poly.points_end());
+	const auto alphaRad = alpha * 2.0 * M_PI, betaRad = beta * 2.0 * M_PI;
+	const auto a = std::cos(alphaRad) * std::cos(betaRad);
+	const auto b = std::sin(alphaRad) * std::cos(betaRad);
+	const auto c = std::sin(betaRad);
+	const auto d = 2.0 * (gamma - 0.5) * CGAL::sqrt(sphere.squared_radius());
+	Vector3 planeDir(a, b, c);
+	Point3 crossPnt = sphere.center() + d * planeDir;
+    
     Polyhedron p_out;
-    Vector3 nr(1, 0, 0);
-    Plane plane(nr.x(), nr.y(), nr.z(), -2);
+    
+    Plane plane(crossPnt, planeDir);
+    std::cout << plane << std::endl;
 
     PlaneCutter cutter;
-    cutter.cut(poly, p_out, plane);
+    cutter.cut_and_fill<FillHoleCDT>(poly, p_out, plane);
 
-    FillHoleCDT holeFiller;
-    holeFiller.fill_hole(poly, -nr);
 	std::ofstream file_pos("poly_pos.off");
 	file_pos << poly;
 	file_pos.close();
-    holeFiller.fill_hole(p_out, nr);
 
 	std::ofstream file_neg("poly_neg.off");
 	file_neg << p_out;
